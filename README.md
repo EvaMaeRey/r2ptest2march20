@@ -20,6 +20,12 @@
       - [`devtools::check()` report](#devtoolscheck-report)
       - [Package directory file tree](#package-directory-file-tree)
 
+<!-- badges: start -->
+
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+<!-- badges: end -->
+
 # *To the reader*
 
 Welcome to the R package building helper *readme2pkg.template*\!
@@ -35,7 +41,7 @@ To install `{readme2pkg}`:
 
 ``` 
 
-remotes::install.github("EvaMaeRey/readme2pkg")
+remotes::install_github("EvaMaeRey/readme2pkg")
 ```
 
 # Part 0. Proposal
@@ -48,22 +54,26 @@ The goal of {xxxx} is to make … easier.
 Without the package, we live in the effort-ful world that follows 🏋:
 
 ``` r
-x <- 4
-
-2*x
-#> [1] 8
+library(ggplot2)
+ggplot(cars, aes(x = dist)) + 
+  geom_histogram(fill = "blue")
+#> `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ```
 
-With the {xxxx} package, we’ll live in a different world (🦄 🦄 🦄) where
-the task is a snap 🫰:
+![](README_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+
+With the {bluehistogram} package, we’ll live in a different world (🦄 🦄
+🦄) where the task is a snap 🫰:
 
 Proposed API:
 
 ``` 
 
-library(xxxxx)
+library(bluehistogram)
+library(ggplot2)
 
-xxxxx::times_two(x = 4)
+ggplot(cars, aes(x = dist)) + 
+  geom_histogram_blue()
 ```
 
 # Part I. Work out functionality ✅
@@ -71,9 +81,9 @@ xxxxx::times_two(x = 4)
 Here is a function that will do some work…
 
 ``` r
-times_two <- function(x){
+geom_histogram_blue <- function(...){
   
-  x*2
+  geom_histogram(fill = "blue", ...)
   
 }
 ```
@@ -81,9 +91,12 @@ times_two <- function(x){
 ## Try it out
 
 ``` r
-times_two(4)
-#> [1] 8
+ggplot(cars, aes(x = dist)) + 
+  geom_histogram_blue()
+#> `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ```
+
+![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
 # Part II. Packaging and documentation 🚧 ✅
 
@@ -118,7 +131,8 @@ usethis::use_package("ggplot2")
 Use new {readme2pkg} function to do this from readme…
 
 ``` r
-readme2pkg::chunk_to_r(chunk_name = "times_two")
+library(stringr) #!!!
+readme2pkg::chunk_to_r(chunk_name = "geom_histogram_blue")
 ```
 
 ### Bit D. Run [`devtools::check()`](https://r-pkgs.org/whole-game.html#check) and address errors. 🚧 ✅
@@ -141,15 +155,18 @@ The goal of the {xxxx} package is to …
 
 Install package with:
 
-    remotes::installgithub("GithubCoolUser/mypacakge")
+    remotes::installgithub("EvaMaeRey/r2ptest2march20")
 
 Once functions are exported you can remove go to two colons, and when
 things are are really finalized, then go without colons (and rearrange
 your readme…)
 
 ``` r
-library(mypackage)  ##<< change to your package name here
-mypackage:::times_two(10)
+library(r2ptest2march20)  ##<< change to your package name here
+library(ggplot2)
+
+ggplot(cars, aes(x = dist)) +
+  r2ptest2march20:::geom_histogram_blue()
 ```
 
 ### Bit G. Add [lifecycle badge](https://r-pkgs.org/lifecycle.html) (experimental) 🚧 ✅
@@ -158,7 +175,9 @@ mypackage:::times_two(10)
 usethis::use_lifecycle_badge("experimental")
 ```
 
-### Bit H. Push to github.
+### Bit H. Compile READme
+
+### Bit I. Push to github.
 
 RStudio: Console/Terminal/RMarkdown/Jobs:
 
@@ -239,9 +258,9 @@ all[11:17]
 #> [2] "attached base packages:"                                                  
 #> [3] "[1] stats     graphics  grDevices utils     datasets  methods   base     "
 #> [4] ""                                                                         
-#> [5] "loaded via a namespace (and not attached):"                               
-#> [6] " [1] compiler_4.2.2  fastmap_1.1.1   cli_3.6.1       tools_4.2.2    "     
-#> [7] " [5] htmltools_0.5.4 rstudioapi_0.14 yaml_2.3.7      rmarkdown_2.20 "
+#> [5] "other attached packages:"                                                 
+#> [6] "[1] ggplot2_3.4.4.9000"                                                   
+#> [7] ""
 ```
 
 ## `devtools::check()` report
@@ -255,7 +274,16 @@ devtools::check(pkg = ".")
 ``` r
 fs::dir_tree(recurse = T)
 #> .
+#> ├── DESCRIPTION
+#> ├── NAMESPACE
+#> ├── R
+#> │   └── geom_histogram_blue.R
 #> ├── README.Rmd
 #> ├── README.md
+#> ├── README_files
+#> │   └── figure-gfm
+#> │       ├── unnamed-chunk-2-1.png
+#> │       └── unnamed-chunk-3-1.png
+#> ├── r2ptest2march20.Rproj
 #> └── readme2pkg.template.Rproj
 ```

@@ -14,6 +14,10 @@ knitr::opts_chunk$set(
 )
 ```
 
+<!-- badges: start -->
+  [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+  <!-- badges: end -->
+
 # *To the reader* 
 
 Welcome to the R package building helper *readme2pkg.template*!
@@ -26,7 +30,7 @@ To install `{readme2pkg}`:
 
 ```
 
-remotes::install.github("EvaMaeRey/readme2pkg")
+remotes::install_github("EvaMaeRey/readme2pkg")
 
 ```
 
@@ -41,22 +45,23 @@ The goal of {xxxx} is to make ... easier.
 Without the package, we live in the effort-ful world that follows 🏋:
 
 ```{r}
-x <- 4
-
-2*x
-
+library(ggplot2)
+ggplot(cars, aes(x = dist)) + 
+  geom_histogram(fill = "blue")
 ```
 
   
-With the {xxxx} package, we'll live in a different world (🦄 🦄 🦄) where the task is a snap 🫰: 
+With the {bluehistogram} package, we'll live in a different world (🦄 🦄 🦄) where the task is a snap 🫰: 
 
 Proposed API:
 
 ```
 
-library(xxxxx)
+library(bluehistogram)
+library(ggplot2)
 
-xxxxx::times_two(x = 4)
+ggplot(cars, aes(x = dist)) + 
+  geom_histogram_blue()
 
 ```
 
@@ -67,10 +72,10 @@ xxxxx::times_two(x = 4)
 Here is a function that will do some work...
 
 
-```{r times_two}
-times_two <- function(x){
+```{r geom_histogram_blue}
+geom_histogram_blue <- function(...){
   
-  x*2
+  geom_histogram(fill = "blue", ...)
   
 }
 ```
@@ -79,7 +84,8 @@ times_two <- function(x){
 ## Try it out
 
 ```{r}
-times_two(4)
+ggplot(cars, aes(x = dist)) + 
+  geom_histogram_blue()
 ```
 
 
@@ -115,7 +121,8 @@ usethis::use_package("ggplot2")
 Use new {readme2pkg} function to do this from readme...
 
 ```{r, eval = F}
-readme2pkg::chunk_to_r(chunk_name = "times_two")
+library(stringr) #!!!
+readme2pkg::chunk_to_r(chunk_name = "geom_histogram_blue")
 ```
 
 
@@ -142,14 +149,17 @@ The goal of the {xxxx} package is to ...
 Install package with:
 
 ```
-remotes::installgithub("GithubCoolUser/mypacakge")
+remotes::installgithub("EvaMaeRey/r2ptest2march20")
 ```
 
 Once functions are exported you can remove go to two colons, and when things are are really finalized, then go without colons (and rearrange your readme...)
 
 ```{r, eval = F}
-library(mypackage)  ##<< change to your package name here
-mypackage:::times_two(10)
+library(r2ptest2march20)  ##<< change to your package name here
+library(ggplot2)
+
+ggplot(cars, aes(x = dist)) +
+  r2ptest2march20:::geom_histogram_blue()
 ```
 
 
@@ -161,7 +171,11 @@ usethis::use_lifecycle_badge("experimental")
 ```
 
 
-### Bit H. Push to github.
+### Bit H. Compile READme
+
+
+
+### Bit I. Push to github.
 
 
 RStudio: Console/Terminal/RMarkdown/Jobs:
